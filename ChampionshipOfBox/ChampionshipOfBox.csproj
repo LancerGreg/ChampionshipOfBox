@@ -139,6 +139,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repo\BoxContext.cs" />
     <Compile Include="Seeder\BattleDbInitializer.cs" />
+    <Compile Include="Seeder\BoxerDbInitializer.cs" />
     <Compile Include="Services\BattleService.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -182,7 +183,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Views\Box\" />
     <Folder Include="Views\Championship\" />
-    <Folder Include="Views\Chempionship\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
