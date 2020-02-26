@@ -18,8 +18,7 @@ namespace ChampionshipOfBox
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            Database.SetInitializer(new BattleDbInitializer());
-            Database.SetInitializer(new BoxerDbInitializer());
+            Database.SetInitializer(new BoxDbInitializer());
         }
     }
 }

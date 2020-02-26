@@ -1,0 +1,10 @@
+﻿@model IEnumerable<ChampionshipOfBox.Models.Ranking>
+
+@foreach (var r in Model)
+{
+    <tr>
+        <td>@Html.DisplayFor(m => r.CurrentRanking)</td>
+        <td>@Html.DisplayFor(m => r.Boxer.Name)</td>
+        <td>@Html.DisplayFor(m => r.AmountBottles)</td>
+    </tr>
+}

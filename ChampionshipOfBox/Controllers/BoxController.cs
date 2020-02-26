@@ -11,26 +11,42 @@ namespace ChampionshipOfBox.Controllers
 {
     public class BoxController : Controller
     {
-        BattleService battleService = new BattleService();
+        BoxService service = new BoxService();
 
-        // GET: MainPage
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        [HttpPost]
         public ActionResult Index(string boxerName)
         {
-            ViewBag.Ranking = battleService.Rankings(boxerName);
+            return View("Index", (object)boxerName);
+        }
+
+        public ActionResult MainPage(string boxerName)
+        {
+            return PartialView(service.Rankings(boxerName).ToList());
+        }
+
+        [HttpGet]
+        public ActionResult Championship(Boxer boxer, bool result)
+        {
+            ViewBag.Championships = service.Championships(boxer, result);
             return View();
         }
 
         [HttpPut]
         public async Task<string> EditBattle(Battle editBattle)
         {
-            await battleService.EditBattle(editBattle);
+            await service.EditBattle(editBattle);
             return "The Battle has been edit";
         }
 
         [HttpPost]
         public async Task<string> AddNewBattle(Battle newBattle)
         {
-            await battleService.AddNewBattle(newBattle);
+            await service.AddNewBattle(newBattle);
             return "A new battle has been registered";
         }
     }

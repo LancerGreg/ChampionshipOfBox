@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewBag.Tittle = "MainPage";
+}
+
+@using (Html.BeginForm())
+{
+    <table cellpadding="3">
+        <thead>
+            <tr>
+                <th>Current ranking</th>
+                <th>Boxer</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+
+        <tbody id="tabledata">
+             @Html.Action("MainPage", new { name = Model })
+        </tbody>
+    </table>
+
+    <p>
+        @Html.DropDownList("name", new SelectList(new[] { "All", "Bob" }, (Model ?? "All")))
+        <input type="submit" value="Sumbit" />
+    </p>
+}
