@@ -1,26 +1,19 @@
 ﻿
 @{
-    ViewBag.Tittle = "MainPage";
+    ViewBag.Tittle = "Index";
 }
 
-@using (Html.BeginForm())
+<br />
+<br />
+<br />
+
+<h1>Welcom to The Boxing Championship</h1>
+<br />
+<h3>Enter a name boxer for search her/his ranking</h3>
+
+@using (Ajax.BeginForm("MainPage", new AjaxOptions { UpdateTargetId = "results" }))
 {
-    <table cellpadding="3">
-        <thead>
-            <tr>
-                <th>Current ranking</th>
-                <th>Boxer</th>
-                <th>Amount</th>
-            </tr>
-        </thead>
-
-        <tbody id="tabledata">
-             @Html.Action("MainPage", new { name = Model })
-        </tbody>
-    </table>
-
-    <p>
-        @Html.DropDownList("name", new SelectList(new[] { "All", "Bob" }, (Model ?? "All")))
-        <input type="submit" value="Sumbit" />
-    </p>
+    <input type="text" name="name" />
+    <input type="submit" name="Search" />
 }
+<div id="results"></div>

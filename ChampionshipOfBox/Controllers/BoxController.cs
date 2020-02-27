@@ -19,14 +19,9 @@ namespace ChampionshipOfBox.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(string boxerName)
+        public ActionResult MainPage(string name)
         {
-            return View("Index", (object)boxerName);
-        }
-
-        public ActionResult MainPage(string boxerName)
-        {
-            return PartialView(service.Rankings(boxerName).ToList());
+            return PartialView(service.Rankings(name).ToList());
         }
 
         [HttpGet]
