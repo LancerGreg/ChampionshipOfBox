@@ -25,11 +25,10 @@ namespace ChampionshipOfBox.Controllers
             return PartialView(service.Rankings(name).ToList());
         }
 
-
+        [HttpGet]
         public string Championship(/*string name, bool? result*/)
         {
-            return JsonConvert.SerializeObject(service.Championships(/*name, result*/null, null).Select(b => 
-                new { Date = b.Date, AmountRounds = b.AmountRounds, Winner = b.Winner.Name, Loser = b.Loser.Name }).ToList());
+            return JsonConvert.SerializeObject(service.Championships(/*name, result*/null, null).ToList());
         }
 
         public async Task<string> EditBattle(Battle editBattle)

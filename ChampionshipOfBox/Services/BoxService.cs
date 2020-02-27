@@ -31,14 +31,16 @@ namespace ChampionshipOfBox.Services
         }
 
         // Result winner or loser: Winner - True, Loser - false
-        public IEnumerable<Battle> Championships(string name, bool? result)
+        public IEnumerable<Championship> Championships(string name, bool? result)
         {
             if (result.HasValue && !string.IsNullOrEmpty(name))
-                return Battles().Where(b => result.Value ? b.Winner.Name == name : b.Loser.Name == name);
+                return Battles().Where(b => result.Value ? b.Winner.Name == name : b.Loser.Name == name)
+                    .Select(b => new Championship { Date = b.Date, AmountOfRounds = b.AmountRounds, Winner = b.Winner.Name, Loser = b.Loser.Name });
             if (string.IsNullOrEmpty(name))
-                return Battles();
-            return Battles().Where(b => b.Winner.Name == name || b.Loser.Name == name);
-        }
+                return Battles().Select(b => new Championship { Date = b.Date, AmountOfRounds = b.AmountRounds, Winner = b.Winner.Name, Loser = b.Loser.Name });
+            return Battles().Where(b => b.Winner.Name == name || b.Loser.Name == name)
+                .Select(b => new Championship { Date = b.Date, AmountOfRounds = b.AmountRounds, Winner = b.Winner.Name, Loser = b.Loser.Name });
+            }
 
         public IEnumerable<Ranking> Rankings(string boxerName)
         {

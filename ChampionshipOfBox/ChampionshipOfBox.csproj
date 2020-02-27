@@ -134,6 +134,7 @@
     </Compile>
     <Compile Include="Models\Battle.cs" />
     <Compile Include="Models\Boxer.cs" />
+    <Compile Include="Models\Championship.cs" />
     <Compile Include="Models\Ranking.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repo\BoxContext.cs" />

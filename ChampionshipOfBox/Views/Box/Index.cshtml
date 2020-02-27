@@ -43,36 +43,33 @@
 <br />
 <br />
 
-<h3>Enter a name boxer and her/his status for search battle</h3>
+<table id="ChampionshipTable"></table>
+<div id="ChampionshipPager"></div>
 
-@using (Ajax.BeginForm("Championship", new AjaxOptions { UpdateTargetId = "championshipResults", LoadingElementId = "championshipLoading", LoadingElementDuration = 800 }))
-{
-    <input type="text" id="championshipName" name="name" />
-    <input type="checkbox" id="championshipResult" value="Winner" />
-    <input type="submit" id="championshipSearch" value="Search" />
-}
+<link href="~/Content/themes/base/minified/jquery-ui.min.css" rel="stylesheet" />
+<link href="~/Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet" />
 
-<script>
-    $('#championshipSearch').click(function () {
-        var name = $("#championshipName").val();
-        name = encodeURIComponent(name);
-        var result = $("#championshipResult").val();
-        name = encodeURIComponent(result);
-        $.ajax({
-            type: "Get",
-            //url: "/Box/Championship?name=" + name + "&result=" + result,
-            url: "/Box/Championship",
-            data: param = "",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: successFunc,
-            error: errorFunc
+@section scripts{
+    <script src="~/Scripts/i18n/grid.locale-en.js"></script>
+    <script src="~/Scripts/jquery.jqGrid.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $("#ChampionshipTable").jqGrid({
+            url: '@Url.Action("Championship")',
+            datatype: "json",
+            colNames: ['Date', 'AmountOfRounds', 'Winner', 'Loser'],
+            colModel: [
+                { name: 'Date', index: 'Date' },
+                { name: 'AmountOfRounds', index: 'AmountOfRounds' },
+                { name: 'Winner', index: 'Winner' },
+                { name: 'Loser', index: 'Loser' },
+                ],
+            rowNum: 4, // число отображаемых строк
+            loadonce:true, // загрузка только один раз
+            sortname: 'Id', // сортировка по умолчанию по столбцу Id
+            sortorder: "desc", // порядок сортировки
+            caption: "List Championship"
         });
     });
-</script>
-
-<div id="championshipResults"></div>
-
-<div id="championshipLoading" style="display:none; color:red; font-weight:bold;">
-    <p>Loading...</p>
-</div>
+    </script>
+}
