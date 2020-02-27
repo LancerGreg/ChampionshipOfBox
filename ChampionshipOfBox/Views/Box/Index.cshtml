@@ -11,9 +11,30 @@
 <br />
 <h3>Enter a name boxer for search her/his ranking</h3>
 
-@using (Ajax.BeginForm("MainPage", new AjaxOptions { UpdateTargetId = "results" }))
+@using (Ajax.BeginForm("MainPage", new AjaxOptions { UpdateTargetId = "results", LoadingElementId = "loading", LoadingElementDuration = 800 }))
 {
-    <input type="text" name="name" />
-    <input type="submit" name="Search" />
+    <input type="text" id="name" name="name" />
+    <input type="submit" id="search" value="Search" />
 }
+
+<script>
+    $('#search').click(function () {
+        var name = $("#name").val();
+        name = encodeURIComponent(name);
+        $.ajax({
+            type: "POST",
+            url: "/Box/MainPage?name=" + name,
+            data: param = "",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: successFunc,
+            error: errorFunc
+        });
+    });
+</script>
+
 <div id="results"></div>
+
+<div id="loading" style="display:none; color:red; font-weight:bold;">
+    <p>Loading...</p>
+</div>

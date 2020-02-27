@@ -1,33 +1,28 @@
 ﻿@model IEnumerable<ChampionshipOfBox.Models.Ranking>
 
-<table cellpadding="3">
-    <tr>
-        <th>Current ranking</th>
-        <th>Boxer</th>
-        <th>Amount</th>
-    </tr>
-    @if (Model.Count() == 0)
-    {
-        <tr><th>Boxer not found</th></tr>
-    }
-    else
-    {
-    foreach (var item in Model)
-    {
+<br />
+
+@if (Model.Count() == 0)
+{
+    <tr><th>Boxer not found</th></tr>
+}
+else
+{
+    <table cellpadding="3">
+        <tr>
+            <th>Current ranking </th>
+            <th>Boxer </th>
+            <th>Amount </th>
+        </tr>
+
+
+        @foreach (var item in Model)
+        {
         <tr>
             <th>@item.CurrentRanking</th>
             <th>@item.Boxer.Name</th>
             <th>@item.AmountBottles</th>
         </tr>
-    }
-    }
-</table>
-
-<br />
-
-@using (Ajax.BeginForm("MainPage", new AjaxOptions { UpdateTargetId = "results" }))
-{
-    <input type="text" name="name" />
-    <input type="submit" name="Search" />
+        }
+    </table>
 }
-<div id="results"></div>
