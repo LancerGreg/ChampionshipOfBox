@@ -38,3 +38,41 @@
 <div id="loading" style="display:none; color:red; font-weight:bold;">
     <p>Loading...</p>
 </div>
+
+<br />
+<br />
+<br />
+
+<h3>Enter a name boxer and her/his status for search battle</h3>
+
+@using (Ajax.BeginForm("Championship", new AjaxOptions { UpdateTargetId = "championshipResults", LoadingElementId = "championshipLoading", LoadingElementDuration = 800 }))
+{
+    <input type="text" id="championshipName" name="name" />
+    <input type="checkbox" id="championshipResult" value="Winner" />
+    <input type="submit" id="championshipSearch" value="Search" />
+}
+
+<script>
+    $('#championshipSearch').click(function () {
+        var name = $("#championshipName").val();
+        name = encodeURIComponent(name);
+        var result = $("#championshipResult").val();
+        name = encodeURIComponent(result);
+        $.ajax({
+            type: "Get",
+            //url: "/Box/Championship?name=" + name + "&result=" + result,
+            url: "/Box/Championship",
+            data: param = "",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: successFunc,
+            error: errorFunc
+        });
+    });
+</script>
+
+<div id="championshipResults"></div>
+
+<div id="championshipLoading" style="display:none; color:red; font-weight:bold;">
+    <p>Loading...</p>
+</div>

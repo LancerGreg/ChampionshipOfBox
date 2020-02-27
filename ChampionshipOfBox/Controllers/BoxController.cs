@@ -1,5 +1,6 @@
 ﻿using ChampionshipOfBox.Models;
 using ChampionshipOfBox.Services;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,14 +25,13 @@ namespace ChampionshipOfBox.Controllers
             return PartialView(service.Rankings(name).ToList());
         }
 
-        [HttpGet]
-        public ActionResult Championship(Boxer boxer, bool result)
+
+        public string Championship(/*string name, bool? result*/)
         {
-            ViewBag.Championships = service.Championships(boxer, result);
-            return View();
+            return JsonConvert.SerializeObject(service.Championships(/*name, result*/null, null).Select(b => 
+                new { Date = b.Date, AmountRounds = b.AmountRounds, Winner = b.Winner.Name, Loser = b.Loser.Name }).ToList());
         }
 
-        [HttpPut]
         public async Task<string> EditBattle(Battle editBattle)
         {
             await service.EditBattle(editBattle);

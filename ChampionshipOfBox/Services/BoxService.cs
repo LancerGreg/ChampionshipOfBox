@@ -31,27 +31,27 @@ namespace ChampionshipOfBox.Services
         }
 
         // Result winner or loser: Winner - True, Loser - false
-        public IEnumerable<Battle> Championships(Boxer boxer, bool? result)
+        public IEnumerable<Battle> Championships(string name, bool? result)
         {
-            if (result.HasValue && boxer != null)
-                return Battles().Where(b => result.Value ? b.Winner == boxer : b.Loser == boxer);
-            if (boxer == null)
+            if (result.HasValue && !string.IsNullOrEmpty(name))
+                return Battles().Where(b => result.Value ? b.Winner.Name == name : b.Loser.Name == name);
+            if (string.IsNullOrEmpty(name))
                 return Battles();
-            return Battles().Where(b => b.Winner == boxer || b.Loser == boxer);
+            return Battles().Where(b => b.Winner.Name == name || b.Loser.Name == name);
         }
 
         public IEnumerable<Ranking> Rankings(string boxerName)
         {
-            var ranking = new List<Ranking>();
-            if (boxerName == "All")
-                ranking = db.Boxers.Select(b => new Ranking { Boxer = b }).ToList();
+            IEnumerable<Ranking> ranking;
+            if (boxerName.ToLower() == "all")
+                ranking = db.Boxers.Select(b => new Ranking { Boxer = b });
             else
-                ranking = db.Boxers.Where(b => b.Name == boxerName).Select(b => new Ranking { Boxer = b }).ToList();
+                ranking = db.Boxers.Where(b => b.Name == boxerName).Select(b => new Ranking { Boxer = b });
             if (ranking == null || String.IsNullOrEmpty(boxerName))
                 return new List<Ranking>();
             var battles = Battles().ToList();
 
-            return ranking.Select(r =>
+            return ranking.ToList().Select(r =>
             {
                 battles.ToList().ForEach(b =>
                 {
@@ -108,7 +108,7 @@ namespace ChampionshipOfBox.Services
                 })
             .ToList().Join(
                 db.Boxers,
-                battle => battle.IdWinner,
+                battle => battle.IdLoser,
                 boxer => boxer.Id,
                 (battle, boxer) => new Battle
                 {
