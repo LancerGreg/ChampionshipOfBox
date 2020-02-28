@@ -33,14 +33,33 @@ namespace ChampionshipOfBox.Services
         // Result winner or loser: Winner - True, Loser - false
         public IEnumerable<Championship> Championships(string name, bool? result)
         {
+            int id = 0;
             if (result.HasValue && !string.IsNullOrEmpty(name))
                 return Battles().Where(b => result.Value ? b.Winner.Name == name : b.Loser.Name == name)
-                    .Select(b => new Championship { Date = b.Date, AmountOfRounds = b.AmountRounds, Winner = b.Winner.Name, Loser = b.Loser.Name });
+                    .Select(b =>
+                    {
+                        id++;
+                        return Transform(b, id);
+                    });
             if (string.IsNullOrEmpty(name))
-                return Battles().Select(b => new Championship { Date = b.Date, AmountOfRounds = b.AmountRounds, Winner = b.Winner.Name, Loser = b.Loser.Name });
+                return Battles()
+                    .Select(b =>
+                    {
+                        id++;
+                        return Transform(b, id);
+                    });
             return Battles().Where(b => b.Winner.Name == name || b.Loser.Name == name)
-                .Select(b => new Championship { Date = b.Date, AmountOfRounds = b.AmountRounds, Winner = b.Winner.Name, Loser = b.Loser.Name });
-            }
+                .Select(b =>
+                {
+                    id++;
+                    return Transform(b, id);
+                });
+        }
+
+        private Championship Transform(Battle b, int id) => new Championship { id = id, cell = new[] { b.Date.ToString(), b.AmountRounds.ToString(), b.Winner.Name, b.Loser.Name } };
+
+        public IEnumerable<Championship> ChampionshipsValidate(string name, bool? result) =>
+            Championships(name, result) == null ? new List<Championship>() : Championships(name, result);
 
         public IEnumerable<Ranking> Rankings(string boxerName)
         {

@@ -7,9 +7,7 @@ namespace ChampionshipOfBox.Models
 {
     public class Championship
     {
-        public DateTime Date { get; set; }
-        public int AmountOfRounds { get; set; }
-        public string Winner { get; set; }
-        public string Loser { get; set; }
+        public int id { get; set; }
+        public string[] cell { get; set;}
     }
 }

@@ -25,12 +25,6 @@ namespace ChampionshipOfBox.Controllers
             return PartialView(service.Rankings(name).ToList());
         }
 
-        [HttpGet]
-        public string Championship(/*string name, bool? result*/)
-        {
-            return JsonConvert.SerializeObject(service.Championships(/*name, result*/null, null).ToList());
-        }
-
         public async Task<string> EditBattle(Battle editBattle)
         {
             await service.EditBattle(editBattle);

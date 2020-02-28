@@ -128,6 +128,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\BoxController.cs" />
+    <Compile Include="Controllers\ChampionshipController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -292,11 +293,10 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Box\Index.cshtml" />
     <Content Include="Views\Box\MainPage.cshtml" />
-    <Content Include="Views\Box\Championship.cshtml" />
+    <Content Include="Views\Championship\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Championship\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

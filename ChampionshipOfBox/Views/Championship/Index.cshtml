@@ -1,0 +1,31 @@
+﻿<link rel="stylesheet" type="text/css" href="~/Content/jquery.jqGrid/ui.jqgrid.css"
+      title="coffee" media="screen" />
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script src="/Scripts/jquery.jqGrid.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqModal/1.4.2/jqModal.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/free-jqgrid/4.15.5/modules/jqdnr.js"></script>
+
+<h2>My Grid Data</h2>
+<table id="list" class="scroll" cellpadding="0" cellspacing="0"></table>
+
+<script>
+    jQuery(document).ready(function () {
+        debugger;
+        jQuery("#list").jqGrid({
+            url: '@Url.Action("ChampionshipData")',
+            datatype: 'json',
+            mtype: 'GET',
+            colNames:['Date','AmountOfRounds','Winner','Loser'],
+        colModel :[
+          {name:'Date', index:'Date', width:200, align:'left' },
+          {name:'AmountOfRounds', index:'AmountOfRounds', width:40, align:'left' },
+          {name:'Winner', index:'Winner', width:80, align:'left' },
+          {name:'Loser', index:'Loser', width:80, align:'left'}],
+            sortname: 'Date',
+            sortorder: "desc",
+            imgpath: '/Content/themes/base/images/animated-overlay',
+            viewrecords: true,
+            caption: 'My first grid'
+        });
+    });
+</script>
