@@ -1,31 +1,85 @@
-﻿<link rel="stylesheet" type="text/css" href="~/Content/jquery.jqGrid/ui.jqgrid.css"
-      title="coffee" media="screen" />
+﻿
+@{
+    ViewBag.Tittle = "Index";
+}
+
+<link rel="stylesheet" type="text/css" href="~/Content/jquery.jqGrid/ui.jqgrid.css" title="coffee" media="screen" />
+<link rel="stylesheet" type="text/css" href="~/Content/themes/base/jquery-ui.css" title="coffee" media="screen" />
+
+<script src="~/Scripts/jquery-3.4.1.js"></script>
 <script src="~/Scripts/jquery-3.4.1.js"></script>
 <script src="/Scripts/jquery.jqGrid.js"></script>
+<script src="/Scripts/jquery.jqGrid.min.js"></script>
+<script src="~/Scripts/i18n/grid.locale-en.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqModal/1.4.2/jqModal.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/free-jqgrid/4.15.5/modules/jqdnr.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
 
-<h2>My Grid Data</h2>
-<table id="list" class="scroll" cellpadding="0" cellspacing="0"></table>
+<br />
+
+<h1>Welcom to The Boxing Championship</h1>
+<br />
+<h3>Enter a name boxer for search her/his battles</h3>
+
+<input type="text" id="name" name="name" />
+<input type="radio" id="radio" name="drink" value="true"> Winner or Loser
+<input type="radio" id="radio" name="drink" value="false">
+<input type="submit" id="search" value="Search" />
+
+<div id="dialog" style="display:none">
+    Are you sure you want to do the processing?
+    <br />User Winner: <span id="dialogWinner"></span>
+    <br />User Loser: <span id="dialogLoser"></span>
+</div>
+
+<table id="Championship" class="scroll" cellpadding="0" cellspacing="0"></table>
+
+<div id="results"></div>
 
 <script>
-    jQuery(document).ready(function () {
+    $('#search').click(function () {
         debugger;
-        jQuery("#list").jqGrid({
-            url: '@Url.Action("ChampionshipData")',
+        var name = $("#name").val();
+        name = encodeURIComponent(name);
+        var result = $("#radio").val();
+        result = encodeURIComponent(result);
+        jQuery("#Championship").jqGrid({
+            url: "/Championship/ChampionshipData?name=" + name + "&result=" + result,
             datatype: 'json',
             mtype: 'GET',
-            colNames:['Date','AmountOfRounds','Winner','Loser'],
-        colModel :[
-          {name:'Date', index:'Date', width:200, align:'left' },
-          {name:'AmountOfRounds', index:'AmountOfRounds', width:40, align:'left' },
-          {name:'Winner', index:'Winner', width:80, align:'left' },
-          {name:'Loser', index:'Loser', width:80, align:'left'}],
+            colNames: ['Date', 'AmountOfRounds', 'Winner', 'Loser', 'BattleDetail'],
+            colModel: [
+                { name: 'Date', index: 'Date', width: 200, align: 'left' },
+                { name: 'AmountOfRounds', index: 'AmountOfRounds', width: 120, align: 'left' },
+                { name: 'Winner', index: 'Winner', width: 80, align: 'left' },
+                { name: 'Loser', index: 'Loser', width: 80, align: 'left' },
+                {
+                    name: 'BattleDetail', index: 'BattleDetail',
+                    formatter: function () {
+                        return '<form action="/Championship/BattleData?id=1" method="get"><input type="submit" id="searchInfo" value="Search" /></form>';
+                    }
+                }
+            ],
             sortname: 'Date',
             sortorder: "desc",
             imgpath: '/Content/themes/base/images/animated-overlay',
             viewrecords: true,
-            caption: 'My first grid'
+            caption: 'Championships'
         });
     });
 </script>
+
+@*<script>
+    $('#searchInfo').click(function () {
+        debugger;
+        $.ajax({
+            type: "POST",
+            url: "/Championship/BattleData?id=1",
+            data: param = "",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: successFunc,
+            error: errorFunc
+        });
+    });
+</script>*@

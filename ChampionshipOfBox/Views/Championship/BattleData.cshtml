@@ -1,0 +1,52 @@
+﻿@model IEnumerable<ChampionshipOfBox.Models.Validater>
+
+<table class="table">
+    <tr>
+        <th>
+            Id
+        </th>
+        <th>
+            Date
+        </th>
+        <th>
+            AmountRounds
+        </th>
+        <th>
+            Winner
+        </th>
+        <th>
+            Loser
+        </th>
+        <th>
+            RefereePoints
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.cell[0]
+            </td>
+            <td>
+                @item.cell[1]
+            </td>
+            <td>
+                @item.cell[2]
+            </td>
+            <td>
+                @item.cell[3]
+            </td>
+            <td>
+                @item.cell[4]
+            </td>
+            <td>
+                @item.cell[5]
+            </td>
+            <td>
+                @item.cell[6]
+            </td>
+        </tr>
+    }
+
+</table>

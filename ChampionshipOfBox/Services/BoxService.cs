@@ -31,35 +31,42 @@ namespace ChampionshipOfBox.Services
         }
 
         // Result winner or loser: Winner - True, Loser - false
-        public IEnumerable<Championship> Championships(string name, bool? result)
+        public IEnumerable<Validater> Championships(string name, bool? result)
         {
-            int id = 0;
             if (result.HasValue && !string.IsNullOrEmpty(name))
                 return Battles().Where(b => result.Value ? b.Winner.Name == name : b.Loser.Name == name)
                     .Select(b =>
                     {
-                        id++;
-                        return Transform(b, id);
+                        return Transform(b);
                     });
             if (string.IsNullOrEmpty(name))
                 return Battles()
                     .Select(b =>
                     {
-                        id++;
-                        return Transform(b, id);
+                        return Transform(b);
                     });
             return Battles().Where(b => b.Winner.Name == name || b.Loser.Name == name)
                 .Select(b =>
                 {
-                    id++;
-                    return Transform(b, id);
+                    return Transform(b);
                 });
         }
 
-        private Championship Transform(Battle b, int id) => new Championship { id = id, cell = new[] { b.Date.ToString(), b.AmountRounds.ToString(), b.Winner.Name, b.Loser.Name } };
+        private Validater Transform(Battle b) => new Validater { id = b.Id, cell = new[] { b.Date.ToString(), b.AmountRounds.ToString(), b.Winner.Name, b.Loser.Name } };
 
-        public IEnumerable<Championship> ChampionshipsValidate(string name, bool? result) =>
-            Championships(name, result) == null ? new List<Championship>() : Championships(name, result);
+        public IEnumerable<Validater> ChampionshipsValidate(string name, string result)
+        {
+            bool? res = result == null ? (bool?)null : (result == "true" ? true : false);
+            return Championships(name, res) == null ? new List<Validater>() : Championships(name, res);
+        }
+
+        public Validater BattleValidate(int id) =>
+            Battles().Select(b => new Validater() { 
+                id = b.Id, 
+                cell = new[] { b.Id.ToString(), b.Date.ToString(), b.AmountRounds.ToString(), b.Winner.Name, b.Loser.Name, b.RefereePoints.ToString() } 
+            }).SingleOrDefault(b => b.id == id);
+
+        public Battle GetBattle(int id) => Battles().SingleOrDefault(b => b.Id == id);
 
         public IEnumerable<Ranking> Rankings(string boxerName)
         {

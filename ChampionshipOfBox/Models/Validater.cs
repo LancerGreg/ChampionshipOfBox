@@ -5,9 +5,9 @@ using System.Web;
 
 namespace ChampionshipOfBox.Models
 {
-    public class Championship
+    public class Validater
     {
         public int id { get; set; }
-        public string[] cell { get; set;}
+        public string[] cell { get; set; }
     }
 }
