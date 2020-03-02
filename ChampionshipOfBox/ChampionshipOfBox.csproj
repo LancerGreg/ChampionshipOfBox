@@ -136,6 +136,8 @@
     </Compile>
     <Compile Include="Models\Battle.cs" />
     <Compile Include="Models\Boxer.cs" />
+    <Compile Include="Models\CreateBattleReq.cs" />
+    <Compile Include="Models\ModifyBattleRequest.cs" />
     <Compile Include="Models\Ranking.cs" />
     <Compile Include="Models\Validater.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
