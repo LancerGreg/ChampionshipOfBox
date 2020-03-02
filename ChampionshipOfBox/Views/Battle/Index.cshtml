@@ -1,0 +1,89 @@
+﻿
+@{
+    ViewBag.Tittle = "Index";
+}
+
+<link rel="stylesheet" type="text/css" href="~/Content/jquery.jqGrid/ui.jqgrid.css" title="coffee" media="screen" />
+<link rel="stylesheet" type="text/css" href="~/Content/themes/base/jquery-ui.css" title="coffee" media="screen" />
+
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script src="/Scripts/jquery.jqGrid.js"></script>
+<script src="/Scripts/jquery.jqGrid.min.js"></script>
+<script src="~/Scripts/i18n/grid.locale-en.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqModal/1.4.2/jqModal.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/free-jqgrid/4.15.5/modules/jqdnr.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+
+<table id="battle"></table>
+<div id="jpager"></div>
+
+<script type="text/javascript">
+$(document).ready(function () {
+    $("#battle").jqGrid({
+        url: '@Url.Action("GetBattles")',
+        datatype: "json",
+        colNames: ['Id', 'Date', 'Rounds', 'Winner', 'Loser', 'Points'],
+        colModel: [        
+            { name: 'Id', index: 'Id', width: 50, align: 'left', stype: 'text', key:true },
+            { name: 'Date', index: 'Date', width: 200, align: 'left', editable: true, edittype: 'text', sortable: true },
+            { name: 'AmountOfRounds', index: 'AmountOfRounds', width: 120, align: 'left', editable: true, edittype: 'text', sortable: true },
+            { name: 'Winner', index: 'Winner', width: 80, align: 'left', editable: true, edittype: 'text', sortable: true },
+            { name: 'Loser', index: 'Loser', width: 80, align: 'left', editable: true, edittype: 'text', sortable: true },
+            { name: 'RefereePoints', index: 'RefereePoints', width: 80, align: 'left', editable: true, edittype: 'text', sortable: true }
+        ],
+        rowNum: 10,
+        rowList: [10, 20, 30],
+        width:800,
+        pager: '#jpager',
+        loadonce:true,
+        sortname: 'Id',
+        sortorder: "desc",
+        caption: "Battles"
+    });
+    $("#battle").jqGrid('navGrid', '#jpager', {
+
+        search: true,
+        searchtext: "Search",
+        refresh: false,
+        add: true, // добавление
+        del: true, // удаление
+        edit: true, // редактирование
+        view: true, // просмотр записи
+        viewtext: "Look",
+        viewtitle: "Selected record",
+        addtext: "Add",
+        edittext: "Edit",
+        deltext: "Delete"
+    },
+    update("edit"), // обновление
+    update("add"), // добавление
+    update("del") // удаление
+    );
+    function update(act) {
+        return {
+            closeAfterAdd: true, // закрыть после добавления
+            height: 250,
+            width: 400,
+            closeAfterEdit: true, // закрыть после редактирования
+            reloadAfterSubmit: true, // обновление
+            drag: true,
+            onclickSubmit: function (params) {
+                var list = $("#battle");
+                var selectedRow = list.getGridParam("selrow");
+                rowData = list.getRowData(selectedRow);
+                if (act === "add")
+                    params.url= '@Url.Action("AddNewBattle")';
+                else if (act === "del")
+                    params.url = '@Url.Action("DeleteBattle")';
+                else if (act === "edit")
+                    params.url = '@Url.Action("EditBattle")';
+            },
+            afterSubmit: function (response, postdata) {
+                $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid')
+                return [true, "", 0]
+            }
+        };
+    };
+});
+</script>
