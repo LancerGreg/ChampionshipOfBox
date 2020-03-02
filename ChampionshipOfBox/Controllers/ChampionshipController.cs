@@ -10,7 +10,8 @@ namespace ChampionshipOfBox.Controllers
 {
     public class ChampionshipController : Controller
     {
-        BoxService service = new BoxService();
+        ChampionshipService championshipService = new ChampionshipService();
+        BattleService battlepService = new BattleService();
 
         // GET: Championship
         public ActionResult Index()
@@ -23,7 +24,7 @@ namespace ChampionshipOfBox.Controllers
         {
             var jsonData = new
             {                
-                rows = service.ChampionshipsValidate(name, result).ToList()
+                rows = championshipService.ChampionshipsValidate(name, result).ToList()
                 //!note! - JSON can accept only and only such data type, do not change the name, accepted data type is only a string
             };
             return Json(jsonData, JsonRequestBehavior.AllowGet);
@@ -32,7 +33,7 @@ namespace ChampionshipOfBox.Controllers
         [HttpGet]
         public ActionResult BattleData(int id)
         {
-            var jsonData = new List<Validater>() { service.BattleValidate(id) };
+            var jsonData = new List<Validater>() { battlepService.BattleValidate(id) };
             return PartialView(jsonData);
         }
     }

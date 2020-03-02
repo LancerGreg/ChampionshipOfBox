@@ -26,12 +26,6 @@
 <input type="radio" id="radio" name="drink" value="false">
 <input type="submit" id="search" value="Search" />
 
-<div id="dialog" style="display:none">
-    Are you sure you want to do the processing?
-    <br />User Winner: <span id="dialogWinner"></span>
-    <br />User Loser: <span id="dialogLoser"></span>
-</div>
-
 <table id="Championship" class="scroll" cellpadding="0" cellspacing="0"></table>
 
 <div id="results"></div>
@@ -43,6 +37,7 @@
         name = encodeURIComponent(name);
         var result = $("#radio").val();
         result = encodeURIComponent(result);
+        var info = 'https://localhost:44386/Championship/BattleData?id=1';
         jQuery("#Championship").jqGrid({
             url: "/Championship/ChampionshipData?name=" + name + "&result=" + result,
             datatype: 'json',
@@ -56,7 +51,7 @@
                 {
                     name: 'BattleDetail', index: 'BattleDetail',
                     formatter: function () {
-                        return '<form action="/Championship/BattleData?id=1" method="get"><input type="submit" id="searchInfo" value="Search" /></form>';
+                        return '<button onclick="window.location.href=' + info + ';">Click Here</button>';
                     }
                 }
             ],

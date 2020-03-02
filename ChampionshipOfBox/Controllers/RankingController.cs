@@ -10,9 +10,9 @@ using System.Web.Mvc;
 
 namespace ChampionshipOfBox.Controllers
 {
-    public class BoxController : Controller
+    public class RankingController : Controller
     {
-        BoxService service = new BoxService();
+        RankingService service = new RankingService();
 
         public ActionResult Index()
         {
@@ -23,19 +23,6 @@ namespace ChampionshipOfBox.Controllers
         public ActionResult MainPage(string name)
         {
             return PartialView(service.Rankings(name).ToList());
-        }
-
-        public async Task<string> EditBattle(Battle editBattle)
-        {
-            await service.EditBattle(editBattle);
-            return "The Battle has been edit";
-        }
-
-        [HttpPost]
-        public async Task<string> AddNewBattle(Battle newBattle)
-        {
-            await service.AddNewBattle(newBattle);
-            return "A new battle has been registered";
         }
     }
 }
