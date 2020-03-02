@@ -29,12 +29,5 @@ namespace ChampionshipOfBox.Controllers
             };
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
-
-        [HttpGet]
-        public ActionResult BattleData(int id)
-        {
-            var jsonData = new List<Validater>() { battlepService.BattleValidate(id) };
-            return PartialView(jsonData);
-        }
     }
 }

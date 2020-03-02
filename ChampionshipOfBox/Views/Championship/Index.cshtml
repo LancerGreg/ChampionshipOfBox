@@ -27,8 +27,7 @@
 <input type="submit" id="search" value="Search" />
 
 <table id="Championship" class="scroll" cellpadding="0" cellspacing="0"></table>
-
-<div id="results"></div>
+<div id="jpager"></div>
 
 <script>
     $('#search').click(function () {
@@ -37,44 +36,33 @@
         name = encodeURIComponent(name);
         var result = $("#radio").val();
         result = encodeURIComponent(result);
-        var info = 'https://localhost:44386/Championship/BattleData?id=1';
-        jQuery("#Championship").jqGrid({
+        $("#Championship").jqGrid({
             url: "/Championship/ChampionshipData?name=" + name + "&result=" + result,
             datatype: 'json',
-            mtype: 'GET',
-            colNames: ['Date', 'AmountOfRounds', 'Winner', 'Loser', 'BattleDetail'],
+            colNames: ['Date', 'AmountOfRounds', 'Winner', 'Loser'],
             colModel: [
                 { name: 'Date', index: 'Date', width: 200, align: 'left' },
                 { name: 'AmountOfRounds', index: 'AmountOfRounds', width: 120, align: 'left' },
                 { name: 'Winner', index: 'Winner', width: 80, align: 'left' },
-                { name: 'Loser', index: 'Loser', width: 80, align: 'left' },
-                {
-                    name: 'BattleDetail', index: 'BattleDetail',
-                    formatter: function () {
-                        return '<button onclick="window.location.href=' + info + ';">Click Here</button>';
-                    }
-                }
+                { name: 'Loser', index: 'Loser', width: 80, align: 'left' }
             ],
+            rowNum: 10,
+            rowList: [10, 20, 30],
+            width: 800,
+            pager: '#jpager',
+            loadonce: true,
             sortname: 'Date',
             sortorder: "desc",
-            imgpath: '/Content/themes/base/images/animated-overlay',
-            viewrecords: true,
-            caption: 'Championships'
+            caption: "Battles"
         });
+        $("#Championship").jqGrid('navGrid', '#jpager', {
+            search: true,
+            searchtext: "Search",
+            refresh: false,
+            view: true,
+            viewtext: "Detailed view of battle",
+            viewtitle: "Selected record"
+        }
+        );
     });
 </script>
-
-@*<script>
-    $('#searchInfo').click(function () {
-        debugger;
-        $.ajax({
-            type: "POST",
-            url: "/Championship/BattleData?id=1",
-            data: param = "",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: successFunc,
-            error: errorFunc
-        });
-    });
-</script>*@
