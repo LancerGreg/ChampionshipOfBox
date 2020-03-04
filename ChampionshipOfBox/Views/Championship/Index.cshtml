@@ -41,7 +41,8 @@
             datatype: 'json',
             colNames: ['Date', 'AmountOfRounds', 'Winner', 'Loser'],
             colModel: [
-                { name: 'Date', index: 'Date', width: 200, align: 'left' },
+                { name: 'Date', index: 'Date', width: 200, align: 'left', formatter: "date",
+            formatoptions: { srcformat: "m/d/Y h:i:s A", newformat: "Y-m-d" } },
                 { name: 'AmountOfRounds', index: 'AmountOfRounds', width: 120, align: 'left' },
                 { name: 'Winner', index: 'Winner', width: 80, align: 'left' },
                 { name: 'Loser', index: 'Loser', width: 80, align: 'left' }

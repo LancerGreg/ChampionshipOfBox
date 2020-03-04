@@ -1,4 +1,5 @@
-﻿using ChampionshipOfBox.Models;
+﻿using ChampionshipOfBox.Failers;
+using ChampionshipOfBox.Models;
 using ChampionshipOfBox.Repo;
 using System;
 using System.Collections.Generic;
@@ -34,9 +35,15 @@ namespace ChampionshipOfBox.Services
 
         public async Task<Battle> AddNewBattle(CreateBattleReq battle)
         {
+            if (battle.Date == null)
+                throw new ValidationException("The date wasn't right or not post");
+            if (battle.AmountOfRounds > 12)
+                throw new GreatImportanceException("The amount of rounds cannot be more than 12");
+            if (battle.AmountOfRounds <= 0 || battle.Winner <= 0 || battle.Loser <= 0 || battle.RefereePoints < 0)
+                throw new NegativeNumberException("Was enter negative or zero params");
             Battle newBattle = new Battle()
             {
-                Date = DateTime.Now,
+                Date = battle.Date,
                 AmountRounds = battle.AmountOfRounds,
                 IdWinner = battle.Winner,
                 IdLoser = battle.Loser,
@@ -49,6 +56,13 @@ namespace ChampionshipOfBox.Services
 
         public async Task<Battle> EditBattle(ModifyBattleRequest modifyBattle)
         {
+            if (modifyBattle.Date == null)
+                throw new ValidationException("The date wasn't right or not post");
+            if (modifyBattle.AmountOfRounds > 12)
+                throw new GreatImportanceException("The amount of rounds cannot be more than 12");
+            if (modifyBattle.AmountOfRounds <= 0 || modifyBattle.Winner <= 0 || modifyBattle.Loser <= 0 || modifyBattle.RefereePoints < 0)
+                throw new NegativeNumberException("Was enter negative or zero params");
+
             var oldBattle = br.Battles().Where(b => b.Id == modifyBattle.Id).SingleOrDefault();
 
             if (oldBattle != null)

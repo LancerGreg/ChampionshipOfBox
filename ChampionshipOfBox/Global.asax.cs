@@ -1,5 +1,4 @@
-﻿using ChampionshipOfBox.Seeder;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -18,7 +17,6 @@ namespace ChampionshipOfBox
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            Database.SetInitializer(new BoxDbInitializer());
         }
     }
 }
