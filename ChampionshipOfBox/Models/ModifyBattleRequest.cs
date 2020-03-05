@@ -21,6 +21,12 @@ namespace ChampionshipOfBox.Models
             battle.IdWinner = Winner ?? battle.IdWinner;
             battle.IdLoser = Loser ?? battle.IdLoser;
             battle.RefereePoints = RefereePoints ?? battle.RefereePoints;
+            var boxer = battle.Winner;
+            boxer.Id = Winner ?? boxer.Id;
+            battle.Winner = boxer;
+            boxer = battle.Loser;
+            boxer.Id = Loser ?? boxer.Id;
+            battle.Loser = boxer;
         }
     }
 }

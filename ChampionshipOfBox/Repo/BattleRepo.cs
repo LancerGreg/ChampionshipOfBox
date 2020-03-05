@@ -49,21 +49,5 @@ namespace ChampionshipOfBox.Repo
                     Winner = battle.Winner,
                     Loser = boxer
                 }).ToList();
-
-
-
-        // working crutch
-        //private async Task<IEnumerable<Battle>> Battles() =>
-        //    (await db.Battles.ToListAsync()).Where(b => db.Boxers.Any(r => r.Id == b.IdWinner || r.Id == b.IdLoser)).Select(b =>
-        //    {
-        //        db.Boxers.ToList().ForEach(r =>
-        //        {
-        //            if (r.Id == b.IdWinner)
-        //                b.Winner = r;
-        //            if (r.Id == b.IdLoser)
-        //                b.Loser = r;
-        //        });
-        //        return b;
-        //    });  
     }
 }

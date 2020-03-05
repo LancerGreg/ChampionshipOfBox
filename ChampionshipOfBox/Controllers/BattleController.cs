@@ -31,21 +31,27 @@ namespace ChampionshipOfBox.Controllers
         }
 
         [HttpPost]
-        public async Task AddNewBattle(CreateBattleReq battle) 
+        public async Task<ActionResult> EditBattle(string oper, ModifyBattleRequest modifyBattle)
         {
-            var s = await battleService.AddNewBattle(battle);
-        }
-
-        [HttpPost]
-        public async Task EditBattle(ModifyBattleRequest modifyBattle)
-        {
-            var s = await battleService.EditBattle(modifyBattle);
-        }
-
-        [HttpPost]
-        public async Task DeleteBattle(int id)
-        {
-            await battleService.DeleteBattle(id);
+            switch (oper)
+            {
+                case "add":
+                    {
+                        await battleService.AddNewBattle(modifyBattle);
+                        return Content("true");
+                    }
+                case "edit":
+                    {
+                        await battleService.EditBattle(modifyBattle);
+                        return Content("true");
+                    }
+                case "del":
+                    {
+                        await battleService.DeleteBattle(modifyBattle.Id);
+                        return Content("true");
+                    }
+            }
+            return Content("false");
         }
     }
 }

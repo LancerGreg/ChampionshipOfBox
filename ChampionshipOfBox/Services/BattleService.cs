@@ -27,13 +27,13 @@ namespace ChampionshipOfBox.Services
                 });
         }
 
-        private Validater Transform(Battle b) => new Validater { id = b.Id, cell = new[] { b.Id.ToString(), b.Date.ToString(), b.AmountRounds.ToString(), b.Winner.Name, b.Loser.Name, b.RefereePoints.ToString() } };
+        private Validater Transform(Battle b) => new Validater { id = b.Id, cell = new[] { b.Id.ToString(), b.Date.ToString(), b.AmountRounds.ToString(), b.Winner.Id.ToString(), b.Loser.Id.ToString(), b.RefereePoints.ToString() } };
 
 
         public Validater BattleValidate(int id) =>
             GetValidateBattles().SingleOrDefault(b => b.id == id);
 
-        public async Task<Battle> AddNewBattle(CreateBattleReq battle)
+        public async Task AddNewBattle(ModifyBattleRequest battle)
         {
             if (battle.Date == null)
                 throw new ValidationException("The date wasn't right or not post");
@@ -43,18 +43,19 @@ namespace ChampionshipOfBox.Services
                 throw new NegativeNumberException("Was enter negative or zero params");
             Battle newBattle = new Battle()
             {
-                Date = battle.Date,
-                AmountRounds = battle.AmountOfRounds,
-                IdWinner = battle.Winner,
-                IdLoser = battle.Loser,
-                RefereePoints = battle.RefereePoints
+                Date = battle.Date.Value,
+                AmountRounds = battle.AmountOfRounds.Value,
+                IdWinner = battle.Winner.Value,
+                IdLoser = battle.Loser.Value,
+                RefereePoints = battle.RefereePoints.Value,
+                Winner = new Boxer() { Id = battle.Winner.Value },
+                Loser = new Boxer() { Id = battle.Loser.Value }
             };
             db.Battles.Add(newBattle);
             await db.SaveChangesAsync();
-            return newBattle;
         }
 
-        public async Task<Battle> EditBattle(ModifyBattleRequest modifyBattle)
+        public async Task EditBattle(ModifyBattleRequest modifyBattle)
         {
             if (modifyBattle.Date == null)
                 throw new ValidationException("The date wasn't right or not post");
@@ -69,15 +70,13 @@ namespace ChampionshipOfBox.Services
             {
                 modifyBattle.Update(oldBattle);
                 await db.SaveChangesAsync();
-
-                return oldBattle;
             }
-            return null;
         }
 
         public async Task DeleteBattle(int id)
         {
-            var battle = GetBattle(id);
+            var battle = new Battle() { Id = id };
+            db.Battles.Attach(battle);
             db.Battles.Remove(battle);
             await db.SaveChangesAsync();
         }

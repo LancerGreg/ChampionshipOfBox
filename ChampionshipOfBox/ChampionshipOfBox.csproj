@@ -142,7 +142,6 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Battle.cs" />
     <Compile Include="Models\Boxer.cs" />
-    <Compile Include="Models\CreateBattleReq.cs" />
     <Compile Include="Models\ModifyBattleRequest.cs" />
     <Compile Include="Models\Ranking.cs" />
     <Compile Include="Models\Validater.cs" />

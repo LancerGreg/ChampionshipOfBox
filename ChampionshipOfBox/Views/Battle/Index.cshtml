@@ -20,24 +20,16 @@
 <table id="battle"></table>
 
 <script type="text/javascript">
-    var BattleValidate = BattleValidate || {
 
-        stateArray: {
-            1: "Bob", 2: "Bob", 3: "Jackson", 4: "Stuard", 5: "Sam", 6: "Sam"
-        },
-
-        stateString: "1:Bob;2:Bob;3:Jackson;4:Stuard;5:Sam;6:Sam;",
-
-        customFormatter: function (value) {
-            return BattleValidate.stateArray[value];
-        }
-
-    };
+    // hard-cod will be delete
+    var listBoxers = "17:Bob;18:Sam;19:Rick;20:Sam;21:Morty;22:Will;23:Jenny;24:Criss;25:Bob;26:Bob;";
 
     $(document).ready(function () {
         $("#battle").jqGrid({
             url: '@Url.Action("GetBattles")',
             editurl: '/Battle/EditBattle',
+            addurl: '/Battle/AddNewBattle',
+            deleteurl: '/Battle/DeleteBattle',
             mtype: "GET",
             datatype: "json",
             jsonReader: { id: "Id" },
@@ -49,138 +41,81 @@
                     name: 'Date', index: 'Date', width: 200, align: 'left', editable: true, edittype: 'text', sortable: true, formatter: "date",
                     formatoptions: { srcformat: "m/d/Y h:i:s A", newformat: "Y-m-d" }, editrules: { required: true }
                 },
-                { name: 'AmountOfRounds', index: 'AmountOfRounds', width: 120, align: 'left', editable: true, edittype: 'text', sortable: true, editrules: { required: true } },
-                //{ name: 'Winner', index: 'Winner',  editable: true, width: 80, search: false, stype: "select",
-                //    edittype: "select", label: "Winner",
-                //    editrules: { required: true }, editoptions: { value: BattleValidate.stateArray },
-                //    formatter: BattleValidate.customFormatter
-                //},
-                { name: 'Winner', index: 'Winner', width: 80, align: 'left', editable: true, edittype: 'select', sortable: true, formatter: 'select', editrules: { required: true }, editoptions: { value: "Bob:Bob;Jackson:Jackson;Stuard:Stuard;Sam:Sam;" } },
-                //{ name: 'Loser', index: 'Loser', editable: true, width: 80, search: false, stype: "select",
-                //    edittype: "select", label: "Loser",
-                //    editrules: { required: true }, editoptions: { value: BattleValidate.stateString },
-                //    formatter: BattleValidate.customFormatter },
-                { name: 'Loser', index: 'Loser', width: 80, align: 'left', editable: true, edittype: 'select', sortable: true, formatter: 'select', editrules: { required: true }, editoptions: { value: "Bob:Bob;Jackson:Jackson;Stuard:Stuard;Sam:Sam;" } },
-                { name: 'RefereePoints', index: 'RefereePoints', width: 80, align: 'left', editable: true, edittype: 'text', sortable: true, editrules: { required: true } }
+                {
+                    name: 'AmountOfRounds', index: 'AmountOfRounds', width: 120, align: 'left', editable: true,
+                    edittype: 'text', sortable: true, editrules: { required: true }
+                },
+                {
+                    name: 'Winner', index: 'Winner', width: 80, align: 'left', editable: true, 
+                    edittype: 'select', sortable: true, formatter: 'select', editrules: { required: true }, editoptions: { value: listBoxers }
+                },
+                {
+                    name: 'Loser', index: 'Loser', width: 80, align: 'left', editable: true,
+                    edittype: 'select', sortable: true, formatter: 'select', editrules: { required: true }, editoptions: { value: listBoxers }
+                },
+                {
+                    name: 'RefereePoints', index: 'RefereePoints', width: 80, align: 'left', editable: true,
+                    edittype: 'text', sortable: true, editrules: { required: true }
+                }
             ],
             height: "auto",
+            width: 800,
             rowNum: 10,
             pager: '#jpager',
             addParams: { useFormatter: false },
             caption: "Battles"
         });
-        
-    $("#battle").jqGrid('navGrid', '#jpager', {
-        edit: false, add: false, save: false, cancel: false,
-        search: true, refresh: true, del: true, view: true
-    });
-    $("#battle").jqGrid('inlineNav', '#jpager', {
-        edit: true, add: true, save: true, cancel: true
-    });
-        //    inlineNav('#jpager', {
-        //    edit: true,
-        //    editicon: "ui-icon-pencil",
-        //    add: true,
-        //    addicon: "ui-icon-plus",
-        //    save: true,
-        //    saveicon: "ui-icon-disk",
-        //    cancel: true,
-        //    cancelicon: "ui-icon-cancel"
-        //},
-        //    {
-        //        zIndex: 100,
-        //        url: '/Battle/EditBattle',
-        //        closeOnEscape: true,
-        //        closeAfterEdit: true,
-        //        recreateForm: true,
-        //        afterComplete: function (response) {
-        //        if (response.responseText) {
-        //            alert(response.responseText);
-        //        }
-        //    }
-        //    },
-        //    {
-        //    zIndex: 100,
-        //    url: "/Battle/AddNewBattle",
-        //    closeOnEscape: true,
-        //    closeAfterAdd: true,
-        //    afterComplete: function (response) {
-        //        if (response.responseText) {
-        //            alert(response.responseText);
-        //        }
-        //    }
-        //    },
-        //    {
-        //    zIndex: 100,
-        //    url: "/Battle/DeleteBattle",
-        //    closeOnEscape: true,
-        //    closeAfterDelete: true,
-        //    recreateForm: true,
-        //    msg: "Are you sure you want to delete battle? ",
-        //    afterComplete: function (response) {
-        //        if (response.responseText) {
-        //            alert(response.responseText);
-        //        }
-        //    }
-        //    }
-        //);
-        //$("#battle").jqGrid('inlineNav', '#jpager', {
-        //    edit: true,
-        //    editicon: "ui-icon-pencil",
-        //    add: true,
-        //    addicon: "ui-icon-plus",
-        //    save: true,
-        //    saveicon: "ui-icon-disk",
-        //    cancel: true,
-        //    cancelicon: "ui-icon-cancel"
-        //    }
-        //);
-        @*$("#battle").jqGrid('inlineNav', '#jpager', {
 
-        search: true,
-        searchtext: "Search",
-        refresh: false,
-        add: true, // добавление
-        addicon: "ui-icon-plus",
-        del: true, // удаление
-        delicon: "ui-icon-cancel",
-        edit: true, // редактирование
-        editicon: "ui-icon-pencil",
-        view: true, // просмотр записи
-        viewtext: "Look",
-        viewtitle: "Selected record",
-        addtext: "Add",
-        edittext: "Edit",
-        deltext: "Delete"
-    },
-    update("edit"), // обновление
-    update("add"), // добавление
-    update("del") // удаление
-    );
-    function update(act) {
-        return {
-            closeAfterAdd: true, // закрыть после добавления
-            height: 250,
-            width: 400,
-            closeAfterEdit: true, // закрыть после редактирования
-            reloadAfterSubmit: true, // обновление
-            drag: true,
-            onclickSubmit: function (params) {
-                var list = $("#battle");
-                var selectedRow = list.getGridParam("selrow");
-                rowData = list.getRowData(selectedRow);
-                if (act === "add")
-                    params.url= '@Url.Action("AddNewBattle")';
-                else if (act === "del")
-                    params.url = '@Url.Action("DeleteBattle")';
-                else if (act === "edit")
-                    params.url = '@Url.Action("EditBattle")';
+        $("#battle").jqGrid('navGrid', '#jpager', {
+            edit: false, add: false, save: false, cancel: false,
+            search: true, refresh: true, del: true, view: true
+        });
+        $("#battle").jqGrid('inlineNav', '#jpager',
+            {
+                search: true,
+                refresh: false,
+                add: true,
+                addicon: "ui-icon-plus",
+                del: true, 
+                delicon: "ui-icon-cancel",
+                edit: true,
+                editicon: "ui-icon-pencil",
+                view: true,
+                viewtext: "Look",
+                viewtitle: "Selected record",
+                addtext: "Add",
+                edittext: "Edit",
+                searchtext: "Search",
+                deltext: "Delete"
             },
-            afterSubmit: function (response, postdata) {
-                $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid')
-                return [true, "", 0]
+            update("edit"), // обновление
+            update("add"), // добавление
+            update("del") // удаление
+        );
+        function update(act) {
+            return {
+                closeAfterAdd: true,
+                height: 250,
+                width: 400,
+                closeAfterEdit: true,
+                reloadAfterSubmit: true,
+                drag: true,
+                onclickSubmit: function (params) {
+                    var list = $("#battle");
+                    var selectedRow = list.getGridParam("selrow");
+                    rowData = list.getRowData(selectedRow);
+                    if (act === "add")
+                        params.url = '@Url.Action("AddNewBattle")';
+                    else if (act === "del")
+                        params.url = '@Url.Action("DeleteBattle")';
+                    else if (act === "edit")
+                        params.url = '@Url.Action("EditBattle")';
+                },
+                afterSubmit: function (response, postdata) {
+                    $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid')
+                    return [true, "", 0]
+                }
             }
-        };
-    };*@
-});
+        }
+    });
 </script>
