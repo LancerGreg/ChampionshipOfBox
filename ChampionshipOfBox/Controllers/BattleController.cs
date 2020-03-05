@@ -16,7 +16,6 @@ namespace ChampionshipOfBox.Controllers
         // GET: Battle
         public ActionResult Index()
         {
-            var s = battleService.GetBattles().ToList();
             return View();
         }
 

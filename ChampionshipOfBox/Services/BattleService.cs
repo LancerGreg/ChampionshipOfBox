@@ -16,7 +16,7 @@ namespace ChampionshipOfBox.Services
 
         public Battle GetBattle(int id) => br.Battles().SingleOrDefault(b => b.Id == id);
 
-        public IEnumerable<Battle> GetBattles() => db.Battles;
+        public IEnumerable<Battle> GetBattles() => br.Battles();
 
         public IEnumerable<Validater> GetValidateBattles()
         {
