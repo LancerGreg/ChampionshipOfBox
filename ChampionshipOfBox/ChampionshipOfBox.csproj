@@ -131,9 +131,15 @@
     <Compile Include="Controllers\RankingController.cs" />
     <Compile Include="Controllers\ChampionshipController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Failers\Exceptions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202003031436162_InitialCreate.cs" />
+    <Compile Include="Migrations\202003031436162_InitialCreate.designer.cs">
+      <DependentUpon>202003031436162_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Battle.cs" />
     <Compile Include="Models\Boxer.cs" />
     <Compile Include="Models\CreateBattleReq.cs" />
@@ -143,7 +149,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repo\BattleRepo.cs" />
     <Compile Include="Repo\BoxContext.cs" />
-    <Compile Include="Seeder\BoxDbInitializer.cs" />
     <Compile Include="Services\BattleService.cs" />
     <Compile Include="Services\RankingService.cs" />
     <Compile Include="Services\ChampionshipService.cs" />
@@ -164,6 +169,7 @@
     <Content Include="Content\jquery-ui.theme.css" />
     <Content Include="Content\jquery.jqGrid\ellipsis-xbl.xml" />
     <Content Include="Content\jquery.jqGrid\ui.jqgrid.css" />
+    <Content Include="Content\Scripts\BattleValidate.js" />
     <Content Include="Content\themes\base\images\animated-overlay.gif" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -314,6 +320,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Seeder\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -327,6 +334,11 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202003031436162_InitialCreate.resx">
+      <DependentUpon>202003031436162_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

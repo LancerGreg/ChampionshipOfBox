@@ -7,6 +7,7 @@
 <link rel="stylesheet" type="text/css" href="~/Content/themes/base/jquery-ui.css" title="coffee" media="screen" />
 
 <script src="~/Scripts/jquery-3.4.1.js"></script>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
 <script src="~/Scripts/jquery-3.4.1.js"></script>
 <script src="/Scripts/jquery.jqGrid.js"></script>
 <script src="/Scripts/jquery.jqGrid.min.js"></script>
@@ -15,40 +16,136 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/free-jqgrid/4.15.5/modules/jqdnr.js"></script>
 <script src="~/Scripts/jquery-ui.js"></script>
 
-<table id="battle"></table>
 <div id="jpager"></div>
+<table id="battle"></table>
 
 <script type="text/javascript">
-$(document).ready(function () {
-    $("#battle").jqGrid({
-        url: '@Url.Action("GetBattles")',
-        datatype: "json",
-        colNames: ['Id', 'Date', 'Rounds', 'Winner', 'Loser', 'Points'],
-        colModel: [        
-            { name: 'Id', index: 'Id', width: 50, align: 'left', stype: 'text', key:true },
-            { name: 'Date', index: 'Date', width: 200, align: 'left', editable: true, edittype: 'text', sortable: true },
-            { name: 'AmountOfRounds', index: 'AmountOfRounds', width: 120, align: 'left', editable: true, edittype: 'text', sortable: true },
-            { name: 'Winner', index: 'Winner', width: 80, align: 'left', editable: true, edittype: 'text', sortable: true },
-            { name: 'Loser', index: 'Loser', width: 80, align: 'left', editable: true, edittype: 'text', sortable: true },
-            { name: 'RefereePoints', index: 'RefereePoints', width: 80, align: 'left', editable: true, edittype: 'text', sortable: true }
-        ],
-        rowNum: 10,
-        rowList: [10, 20, 30],
-        width:800,
-        pager: '#jpager',
-        loadonce:true,
-        sortname: 'Id',
-        sortorder: "desc",
-        caption: "Battles"
-    });
+    var BattleValidate = BattleValidate || {
+
+        stateArray: {
+            1: "Bob", 2: "Bob", 3: "Jackson", 4: "Stuard", 5: "Sam", 6: "Sam"
+        },
+
+        stateString: "1:Bob;2:Bob;3:Jackson;4:Stuard;5:Sam;6:Sam;",
+
+        customFormatter: function (value) {
+            return BattleValidate.stateArray[value];
+        }
+
+    };
+
+    $(document).ready(function () {
+        $("#battle").jqGrid({
+            url: '@Url.Action("GetBattles")',
+            editurl: '/Battle/EditBattle',
+            mtype: "GET",
+            datatype: "json",
+            jsonReader: { id: "Id" },
+            prmNames: { id: "Id" },
+            colNames: ['Id', 'Date', 'Rounds', 'Winner', 'Loser', 'Points'],
+            colModel: [
+                { name: 'Id', index: 'Id', width: 50, key: true, hidden: true, search: false },
+                {
+                    name: 'Date', index: 'Date', width: 200, align: 'left', editable: true, edittype: 'text', sortable: true, formatter: "date",
+                    formatoptions: { srcformat: "m/d/Y h:i:s A", newformat: "Y-m-d" }, editrules: { required: true }
+                },
+                { name: 'AmountOfRounds', index: 'AmountOfRounds', width: 120, align: 'left', editable: true, edittype: 'text', sortable: true, editrules: { required: true } },
+                //{ name: 'Winner', index: 'Winner',  editable: true, width: 80, search: false, stype: "select",
+                //    edittype: "select", label: "Winner",
+                //    editrules: { required: true }, editoptions: { value: BattleValidate.stateArray },
+                //    formatter: BattleValidate.customFormatter
+                //},
+                { name: 'Winner', index: 'Winner', width: 80, align: 'left', editable: true, edittype: 'select', sortable: true, formatter: 'select', editrules: { required: true }, editoptions: { value: "Bob:Bob;Jackson:Jackson;Stuard:Stuard;Sam:Sam;" } },
+                //{ name: 'Loser', index: 'Loser', editable: true, width: 80, search: false, stype: "select",
+                //    edittype: "select", label: "Loser",
+                //    editrules: { required: true }, editoptions: { value: BattleValidate.stateString },
+                //    formatter: BattleValidate.customFormatter },
+                { name: 'Loser', index: 'Loser', width: 80, align: 'left', editable: true, edittype: 'select', sortable: true, formatter: 'select', editrules: { required: true }, editoptions: { value: "Bob:Bob;Jackson:Jackson;Stuard:Stuard;Sam:Sam;" } },
+                { name: 'RefereePoints', index: 'RefereePoints', width: 80, align: 'left', editable: true, edittype: 'text', sortable: true, editrules: { required: true } }
+            ],
+            height: "auto",
+            rowNum: 10,
+            pager: '#jpager',
+            addParams: { useFormatter: false },
+            caption: "Battles"
+        });
+        
     $("#battle").jqGrid('navGrid', '#jpager', {
+        edit: false, add: false, save: false, cancel: false,
+        search: true, refresh: true, del: true, view: true
+    });
+    $("#battle").jqGrid('inlineNav', '#jpager', {
+        edit: true, add: true, save: true, cancel: true
+    });
+        //    inlineNav('#jpager', {
+        //    edit: true,
+        //    editicon: "ui-icon-pencil",
+        //    add: true,
+        //    addicon: "ui-icon-plus",
+        //    save: true,
+        //    saveicon: "ui-icon-disk",
+        //    cancel: true,
+        //    cancelicon: "ui-icon-cancel"
+        //},
+        //    {
+        //        zIndex: 100,
+        //        url: '/Battle/EditBattle',
+        //        closeOnEscape: true,
+        //        closeAfterEdit: true,
+        //        recreateForm: true,
+        //        afterComplete: function (response) {
+        //        if (response.responseText) {
+        //            alert(response.responseText);
+        //        }
+        //    }
+        //    },
+        //    {
+        //    zIndex: 100,
+        //    url: "/Battle/AddNewBattle",
+        //    closeOnEscape: true,
+        //    closeAfterAdd: true,
+        //    afterComplete: function (response) {
+        //        if (response.responseText) {
+        //            alert(response.responseText);
+        //        }
+        //    }
+        //    },
+        //    {
+        //    zIndex: 100,
+        //    url: "/Battle/DeleteBattle",
+        //    closeOnEscape: true,
+        //    closeAfterDelete: true,
+        //    recreateForm: true,
+        //    msg: "Are you sure you want to delete battle? ",
+        //    afterComplete: function (response) {
+        //        if (response.responseText) {
+        //            alert(response.responseText);
+        //        }
+        //    }
+        //    }
+        //);
+        //$("#battle").jqGrid('inlineNav', '#jpager', {
+        //    edit: true,
+        //    editicon: "ui-icon-pencil",
+        //    add: true,
+        //    addicon: "ui-icon-plus",
+        //    save: true,
+        //    saveicon: "ui-icon-disk",
+        //    cancel: true,
+        //    cancelicon: "ui-icon-cancel"
+        //    }
+        //);
+        @*$("#battle").jqGrid('inlineNav', '#jpager', {
 
         search: true,
         searchtext: "Search",
         refresh: false,
         add: true, // добавление
+        addicon: "ui-icon-plus",
         del: true, // удаление
+        delicon: "ui-icon-cancel",
         edit: true, // редактирование
+        editicon: "ui-icon-pencil",
         view: true, // просмотр записи
         viewtext: "Look",
         viewtitle: "Selected record",
@@ -84,6 +181,6 @@ $(document).ready(function () {
                 return [true, "", 0]
             }
         };
-    };
+    };*@
 });
 </script>
